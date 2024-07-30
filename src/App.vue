@@ -1,32 +1,54 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view/>
-  </div>
+    <!-- <div id="screen" :style="{'width':`${style.width}px`,'height':`${style.height}px`,'transform':`${style.transform}`}"> -->
+      <router-view/>
+    </div>
+  <!-- </div> -->
 </template>
 
+<script>
+export default {
+  data() {
+      return {
+        // style: {
+        //   width: "1920",
+        //   height: "1080",
+        //   transform: "scaleY(1) scaleX(1) translate(-50%, -50%)"
+        // }
+      };
+  },
+  mounted() {
+      let that = this;
+      that.setScale();
+      /*窗口改变事件*/
+      $(window).resize(()=> {
+        that.setScale();
+      });
+  },
+  methods: {
+    getScale() {
+      const w = window.innerWidth / this.style.width;
+      const h = window.innerHeight / this.style.height;
+      return {x:w,y:h};
+    },
+    setScale() {
+      let scale = this.getScale();
+      this.style.transform = "scaleY(" + scale.y + ") scaleX(" + scale.x + ") translate(-50%, -50%)";
+    },
+  },
+}
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
+  @import "./assets/css/main.css";
+  @import "./assets/css/color-dark.css";
+  /* #screen{
+    z-index: 100;
+    transform-origin: 0 0;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transition: 0.3s;
+}   */
 </style>
+
